@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+echo "Creating container cluster $CONTAINER_CLUSTER"
+gcloud container clusters create $CONTAINER_CLUSTER --num-nodes=3
+
+echo "Deploying $CONTAINER_IMAGE to $CONTAINER_CLUSTER"
+kubectl run $CONTAINER_NAME --image=$CONTAINER_IMAGE --port 8080
+
+echo "Exposing $CONTAINER_NAME to the internet"
+kubectl expose deployment $CONTAINER_NAME --type=LoadBalancer --port 8080
+
+echo "Listing services"
+kubectl get service
+
+echo "Scaling services"
+kubectl scale deployment $CONTAINER_NAME --replicas=3
+
+echo "Listing replicas"
+kubectl get deployment $CONTAINER_NAME
+
+echo "Listing pods"
+kubectl get pods

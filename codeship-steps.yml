@@ -1,0 +1,18 @@
+- name: build-image
+  service: app
+  command: echo "Build completed"
+- service: app
+  type: push
+  image_name: "gcr.io/hello-express/hello-express"
+  image_tag: "{{printf \"%.8s\" .CommitID}}"
+  registry: https://gcr.io
+  dockercfg_service: codeship_gcr_dockercfg
+- name: gce-update-services
+  service: codeship_gce_service
+  command: bin/deploy
+# - name: gce-initial-deployment
+#   service: codeship_gce_service
+#   command: bin/deploy --create
+# - name: gce-remove-services
+#   service: codeship_gce_service
+#   command: bin/deploy --remove
