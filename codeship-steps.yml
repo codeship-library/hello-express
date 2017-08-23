@@ -1,10 +1,19 @@
 - name: build-image
   service: app
   command: echo "Build completed"
-- service: app
+- name: push-image-with-sha
+  service: app
   type: push
   image_name: "gcr.io/hello-express/hello-express"
   image_tag: "{{printf \"%.8s\" .CommitID}}"
+  registry: https://gcr.io
+  dockercfg_service: codeship_gcr_dockercfg
+- name: tag-as-master
+  service: app
+  type: push
+  tag: master
+  image_name: "gcr.io/hello-express/hello-express"
+  image_tag: "master"
   registry: https://gcr.io
   dockercfg_service: codeship_gcr_dockercfg
 - name: gce-update-services
