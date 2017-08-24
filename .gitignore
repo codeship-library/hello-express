@@ -1,9 +1,8 @@
-codeship.aes
 /node_modules/
 DS_Store
 npm-debug.log
 codeship.aes
-deployment.env
+.env
 /tmp
 .env
 hello-express-*.json

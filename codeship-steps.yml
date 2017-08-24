@@ -4,7 +4,7 @@
 - name: push-image-with-sha
   service: app
   type: push
-  image_name: "gcr.io/hello-express/hello-express"
+  image_name: "gcr.io/YOUR_PROJECT_ID/hello-express"
   image_tag: "{{printf \"%.8s\" .CommitID}}"
   registry: https://gcr.io
   dockercfg_service: codeship_gcr_dockercfg
@@ -12,16 +12,18 @@
   service: app
   type: push
   tag: master
-  image_name: "gcr.io/hello-express/hello-express"
+  image_name: "gcr.io/YOUR_PROJECT_ID/hello-express"
   image_tag: "master"
   registry: https://gcr.io
   dockercfg_service: codeship_gcr_dockercfg
-- name: gce-update-services
+- name: gke-initial-deployment
   service: codeship_gce_service
-  command: bin/deploy
-# - name: gce-initial-deployment
+  tag: master
+  command: bin/deploy --create
+# - name: gke-update-services
 #   service: codeship_gce_service
-#   command: bin/deploy --create
-# - name: gce-remove-services
+#   tag: master
+#   command: bin/deploy
+# - name: gke-remove-services
 #   service: codeship_gce_service
 #   command: bin/deploy --remove
