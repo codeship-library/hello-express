@@ -18,7 +18,7 @@ echo "Setting default project $GOOGLE_PROJECT_ID"
 gcloud config set project $GOOGLE_PROJECT_ID
 
 # Logic for optional create and remove flags.
-# Can only use one tag at a time, as you will either create, remove, or update, but never all at once.
+# Allows one tag at a time, as you will either create, remove, or update, but not all at once.
 # Default action will update the service
 if [ ! $# -eq 0 ]; then
 	case "$1" in

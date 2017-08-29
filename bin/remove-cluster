@@ -2,8 +2,8 @@
 
 set -e
 
-echo "Removing service $CONTAINER_NAME"
-#kubectl delete services $CONTAINER_NAME
+echo "Removing service $APP_NAME"
+kubectl delete services $APP_NAME
 
 echo "Stopping container Cluster for $CONTAINER_CLUSTER"
 gcloud container clusters delete $CONTAINER_CLUSTER --quiet
