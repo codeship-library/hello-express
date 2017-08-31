@@ -19,11 +19,8 @@
 - name: gke-initial-deployment
   service: codeship_gce_service
   tag: master
-  command: bin/deploy --create
+  command: bin/create-deploy
 # - name: gke-update-services
 #   service: codeship_gce_service
 #   tag: master
 #   command: bin/deploy
-# - name: gke-remove-services
-#   service: codeship_gce_service
-#   command: bin/deploy --remove

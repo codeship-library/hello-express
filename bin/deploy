@@ -2,40 +2,7 @@
 
 set -e
 
-# Set the tag for the deployment to match the template in codeship-steps.yml -> push-image-with-sha
-TAG=$(echo $CI_COMMIT_ID | cut -c1-8)
-IMAGE_NAME=gcr.io/$GOOGLE_PROJECT_ID/$APP_NAME
+. bin/authenticate
 
-# Use the codeship_gce_service to authenticate
-echo "Authenticating"
-codeship_google authenticate
-
-# Set gcloud defaults
-echo "Setting default timezone $DEFAULT_ZONE"
-gcloud config set compute/zone $DEFAULT_ZONE
-
-echo "Setting default project $GOOGLE_PROJECT_ID"
-gcloud config set project $GOOGLE_PROJECT_ID
-
-# Logic for optional create and remove flags.
-# Allows one tag at a time, as you will either create, remove, or update, but not all at once.
-# Default action will update the service
-if [ ! $# -eq 0 ]; then
-	case "$1" in
-		--create | -c)
-      echo "Creating $CONTAINER_CLUSTER cluster."
-			. bin/create-cluster
-			exit
-			;;
-		--remove | -r)
-      gcloud container clusters get-credentials $CONTAINER_CLUSTER
-      echo "Removing $CONTAINER_CLUSTER cluster."
-      . bin/remove-cluster
-			exit
-			;;
-	esac
-else
-  gcloud container clusters get-credentials $CONTAINER_CLUSTER
-  echo "Updating $APP_NAME service to $IMAGE_NAME:$TAG"
-  kubectl set image deployment/$APP_NAME $APP_NAME=$IMAGE_NAME:$TAG
-fi
+echo "Updating $APP_NAME service to $IMAGE_NAME:$TAG"
+kubectl set image deployment/$APP_NAME $APP_NAME=$IMAGE_NAME:$TAG

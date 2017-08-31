@@ -2,9 +2,7 @@
 
 set -e
 
-# The following script will use the gcloud sdk to create a 3 node cluster, deploy the image, and scale the service.
-echo "Creating container cluster $CONTAINER_CLUSTER"
-gcloud container clusters create $CONTAINER_CLUSTER --num-nodes=3
+. bin/authenticate
 
 echo "Deploying $IMAGE_NAME to $IMAGE_NAME:$TAG"
 kubectl run $APP_NAME --image=$IMAGE_NAME:$TAG --port 8080

@@ -1,0 +1,16 @@
+# Set the tag for the deployment to match the template in codeship-steps.yml -> push-image-with-sha
+TAG=$(echo $CI_COMMIT_ID | cut -c1-8)
+IMAGE_NAME=gcr.io/$GOOGLE_PROJECT_ID/$APP_NAME
+
+# Use the codeship_gce_service to authenticate
+echo "Authenticating"
+codeship_google authenticate
+
+# Set gcloud defaults
+echo "Setting default timezone $DEFAULT_ZONE"
+gcloud config set compute/zone $DEFAULT_ZONE
+
+echo "Setting default project $GOOGLE_PROJECT_ID"
+gcloud config set project $GOOGLE_PROJECT_ID
+
+gcloud container clusters get-credentials $CONTAINER_CLUSTER
